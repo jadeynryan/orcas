@@ -1,0 +1,11 @@
+Package: orcas
+Title: Scrape and Visualize Orca Sighting Data
+Version: 0.0.0.9000
+Authors@R: 
+  person("Jadey", "Ryan", email = "jadey.nicole.ryan@gmail.com", role = c("aut", "cre"))
+Description: Scrape and visualize orca (killer whale) sighting data in the 
+  Pacific Northwest. 
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.0

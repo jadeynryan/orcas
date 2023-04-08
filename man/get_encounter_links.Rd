@@ -2,7 +2,7 @@
 % Please edit documentation in R/scrape_cwr.R
 \name{get_encounter_links}
 \alias{get_encounter_links}
-\title{Extract Link for Each Encounter}
+\title{Extract Link for Each CWR Encounter}
 \usage{
 get_encounter_links(
   landing_url = "https://www.whaleresearch.com/2022encounters",
@@ -20,11 +20,11 @@ Defaults to "current".}
 \item{max_urls}{Number of urls to extract. Defaults to \code{Inf}.}
 }
 \value{
-Character vector of urls
+Character vector of urls.
 }
 \description{
 Extract encounter links from
-\href{https://www.whaleresearch.com/2022encounters}{Center for Whale
+\href{https://www.whaleresearch.com/}{Center for Whale
 Research (CWR)} encounter landing pages.
 
 2022 and 2023 encounters are on their current website while 2017 - 2021
@@ -32,7 +32,6 @@ encounters are on their
 \href{https://whaleresearch.wixsite.com/archives}{archival website}.
 }
 \examples{
-library(rvest)
 get_encounter_links("https://www.whaleresearch.com/2022encounters",
                     max_urls = 10)
 }

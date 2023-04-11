@@ -7,37 +7,57 @@
 #'   encounters are on their
 #'   \href{https://whaleresearch.wixsite.com/archives}{archival website}.
 #'
-#' @param landing_url Character url to CWR encounter landing page.
-#' @param website_type Either "current" or "archive" depending on whether the
-#'   encounter landing page is on the CWR current website or archive website.
-#'   Defaults to "current".
-#' @param max_urls Number of urls to extract. Defaults to `Inf`.
+#' @param year Numeric year 2017 or later. Defaults to 2023.
+#' @param max_urls Number of urls to extract (from newest to oldest). Defaults
+#'   to `Inf`.
 #'
 #' @returns Character vector of urls.
 #' @export
 #'
 #' @examples
-#' get_encounter_links("https://www.whaleresearch.com/2022encounters",
-#'                     max_urls = 10)
-get_encounter_links <-
-  function(landing_url = "https://www.whaleresearch.com/2022encounters",
-           website_type = "current",
-           max_urls = Inf) {
-    stopifnot("landing_url must be a character string" =
-                is.character(landing_url))
-    stopifnot("max_urls must be numeric." = is.numeric(max_urls))
-
-    website_type <- match.arg(website_type, c("current", "archive"))
-
-    selector <- switch(website_type,
-                       current = ".font_6+ .font_7 , .comp-l3369ith .font_7+ .font_7 a",
-                       archive = "#comp-kjk4daye2 span a")
-
-    rvest::read_html(landing_url) |>
-      rvest::html_elements(selector) |>
-      rvest::html_attr("href") |>
-      utils::head(max_urls)
+#' # Get 10 most recent encounter links for one year
+#' get_encounter_links(year = 2022, max_urls = 10)
+#'
+#' # Get all encounter links from 2017 through 2020
+#' library(purrr)
+#' purrr::map(2017:2020, get_encounter_links) |>
+#'   purrr::flatten()
+get_encounter_links <- function(year = 2023,
+                                max_urls = Inf) {
+  stopifnot("year must be numeric." = is.numeric(year))
+  if (year < 2017 | year > format(Sys.Date(), "%Y")) {
+    stop("year must be between 2017 and the current year.")
   }
+  stopifnot("year must be a single value." = length(year) == 1)
+  stopifnot("max_urls must be numeric." = is.numeric(max_urls))
+
+  url <- ifelse(
+    year >= 2022,
+    glue::glue("https://www.whaleresearch.com/2022encounters"),
+    glue::glue("https://whaleresearch.wixsite.com/{year}encounters")
+  )
+
+  website_type <- ifelse(year >= 2022,
+                         "current",
+                         "archive")
+
+  selector <- switch(website_type,
+                     current = "//*[starts-with(@id, 'comp-l3369ith')]//a",
+                     archive = "//*[starts-with(@id, 'comp')]//a")
+
+  links <- tryCatch(
+    rvest::read_html(url) |>
+      rvest::html_elements(xpath = selector) |>
+      rvest::html_attr("href")
+  )
+
+  links <- purrr::keep(links, function(link) {
+    grepl(year, link)
+  }) |>
+    utils::head(max_urls)
+
+  return(links)
+}
 
 #' Extract CWR Data from Encounter Webpage
 #'
@@ -49,13 +69,16 @@ get_encounter_links <-
 #' @examples
 #' get_encounter_data("https://www.whaleresearch.com/2023-13")
 get_encounter_data <- function(encounter_url) {
-  # Be polite and wait 3 seconds to avoid overloading server
-  Sys.sleep(3)
+  stopifnot("only one url allowed" = length(encounter_url) == 1)
+  # Be polite and wait 2 seconds to avoid overloading server
+  Sys.sleep(2)
 
   # Scrape webpage
-  results <- rvest::read_html(encounter_url) |>
-    rvest::html_elements(xpath = "//*[starts-with(@id,'comp-l')]//p") |>
-    rvest::html_text2()
+  results <- tryCatch(
+    rvest::read_html(encounter_url) |>
+      rvest::html_elements(xpath = "//*[starts-with(@id,'comp-')]//p") |>
+      rvest::html_text2()
+  )
 
   # Print message for which url is being read
   message("Scraped URL: ", encounter_url)
@@ -72,28 +95,40 @@ get_encounter_data <- function(encounter_url) {
 #'
 #' @examples
 #' get_encounter_data("https://www.whaleresearch.com/2023-13") |>
-#' parse_encounter()
+#'   parse_encounter()
 parse_encounter <- function(encounter_data) {
+  stopifnot("encounter_data must be character vector" =
+              is.character(encounter_data))
+
   # Text to remove from dataframe
   remove <- paste(c("Photos taken",
                     "Get the latest",
-                    "Join our email list"),
+                    "Join our email list",
+                    "©",
+                    "501c3 nonprofit",
+                    "All rights reserved"),
                   collapse = "|")
 
   results <- as.data.frame(encounter_data) |>
     # Filter rows that are empty or irrelevant
     dplyr::filter(!grepl(remove, encounter_data) &
                     !encounter_data == " ") |>
-    # Move NMFS permit to top row
+    # Move NMFS permit to top row to make it easier to extract the
+    # encounter summary
     dplyr::arrange(!grepl("NMFS", encounter_data))
 
   # Get row index of Encounter Summary
-  summary_row_index <- which(grepl("EncSummary", encounter_data))
+  summary <- paste(c("EncSummary",
+                     "Enc Summary",
+                     "Encounter Summary",
+                     "EncounterSummary"),
+                   collapse = "|")
+  summary_row_index <- which(grepl(summary, encounter_data))
 
   # Make one row dataframe of encounter summary (useful since some
   # encounter summaries span multiple list elements)
   encounter_summary <- results |>
-    dplyr::slice(summary_row_index:dplyr::n()) |>
+    dplyr::slice(summary_row_index:length(encounter_data)) |>
     dplyr::summarize(encounter_data = paste(encounter_data,
                                             collapse = ""))
 
@@ -105,27 +140,18 @@ parse_encounter <- function(encounter_data) {
     # Separate column by first colon
     tidyr::separate(
       encounter_data,
-      into = c("variable", "data"),
+      into = c("variable", "value"),
       sep = ":",
       extra = "merge"
     ) |>
     # Trim whitespace
-    dplyr::mutate(data = trimws(.data$data)) |>
+    dplyr::mutate(value = trimws(.data$value)) |>
     # Pivot wider to tidy dataframe
     tidyr::pivot_wider(names_from = "variable",
-                       values_from = "data")
+                       values_from = "value")
 
   # Clean column names
   names(results) <- janitor::make_clean_names(names(results))
-
-  # Convert column types
-  results <- results |>
-    dplyr::mutate(
-      enc_date = as.Date(.data$enc_date,
-                         tryFormats = c("%d/%m/%y", "%d-%m-%y")),
-      enc_seq = as.integer(.data$enc_seq),
-      enc_number = as.integer(.data$enc_number)
-    )
 
   return(results)
 }
@@ -140,15 +166,34 @@ parse_encounter <- function(encounter_data) {
 #'
 #' @examples
 #' # Piping the `get_encounter_links()` function
-#' get_encounter_links(max_urls = 3) |>
+#' get_encounter_links(year = 2023, max_urls = 2) |>
 #'   make_encounter_df()
-#'
-#' # Providing a character vector of urls
-#' make_encounter_df(c("https://www.whaleresearch.com/2023-4",
-#'                     "https://www.whaleresearch.com/2023-09"))
 make_encounter_df <- function(encounter_urls) {
-  as.list(encounter_urls) |>
-    purrr::map(.x = _, get_encounter_data) |>
-    purrr::map(.x = _, parse_encounter) |>
-    dplyr::bind_rows()
+  # stopifnot("encounter_urls must be a character string or vector." =
+  #             is.character(encounter_urls))
+
+  df <- encounter_urls |>
+    purrr::map(.x = _, tryCatch(get_encounter_data))
+  #   purrr::map_df(.x = _, tryCatch(parse_encounter))
+  #
+  # df <- df |>
+  #   # tidyr::unite(enc_number, tidyr::any_of(c("enc_number", "enc"))) |>
+  #   tidyr::unite(enc_date, tidyr::any_of(c("enc_date", "date"))) |>
+  #   # Convert column types
+  #   dplyr::mutate(enc_date = as.Date(.data$enc_date,
+  #                                    tryFormats = c("%d/%m/%y",
+  #                                                   "%d-%m-%y",
+  #                                                   "%d/%B/%y",
+  #                                                   "%d-%B-%y",
+  #                                                   "%d/%b/%y",
+  #                                                   "%d-%b-%y"
+  #                                                   )))
+
+  # return(df)
+}
+
+get_all_encounters <- function(years = 2023) {
+  links <- purrr::map(years, get_encounter_links) |>
+    purrr::flatten()
+  make_encounter_df(links)
 }

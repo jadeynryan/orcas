@@ -4,20 +4,13 @@
 \alias{get_encounter_links}
 \title{Extract Link for Each CWR Encounter}
 \usage{
-get_encounter_links(
-  landing_url = "https://www.whaleresearch.com/2022encounters",
-  website_type = "current",
-  max_urls = Inf
-)
+get_encounter_links(year = 2023, max_urls = Inf)
 }
 \arguments{
-\item{landing_url}{Character url to CWR encounter landing page.}
+\item{year}{Numeric year 2017 or later. Defaults to 2023.}
 
-\item{website_type}{Either "current" or "archive" depending on whether the
-encounter landing page is on the CWR current website or archive website.
-Defaults to "current".}
-
-\item{max_urls}{Number of urls to extract. Defaults to \code{Inf}.}
+\item{max_urls}{Number of urls to extract (from newest to oldest). Defaults
+to \code{Inf}.}
 }
 \value{
 Character vector of urls.
@@ -32,6 +25,11 @@ encounters are on their
 \href{https://whaleresearch.wixsite.com/archives}{archival website}.
 }
 \examples{
-get_encounter_links("https://www.whaleresearch.com/2022encounters",
-                    max_urls = 10)
+# Get 10 most recent encounter links for one year
+get_encounter_links(year = 2022, max_urls = 10)
+
+# Get all encounter links from 2017 through 2020
+library(purrr)
+purrr::map(2017:2020, get_encounter_links) |>
+  purrr::flatten()
 }

@@ -17,5 +17,5 @@ Parse CWR Encounter Data
 }
 \examples{
 get_encounter_data("https://www.whaleresearch.com/2023-13") |>
-parse_encounter()
+  parse_encounter()
 }

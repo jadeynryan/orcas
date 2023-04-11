@@ -1,32 +1,61 @@
 test_that("get_encounter_links() works", {
   # Returns character vector
-  expect_type(
-    get_encounter_links("https://www.whaleresearch.com/2022encounters"),
-    "character"
-  )
-
-  # Default max_urls (Inf) captures all links and archive website_type works
-  expect_length(
-    get_encounter_links(
-      "https://whaleresearch.wixsite.com/2021encounters",
-      website_type = "archive"
-    ),
-    89
-  )
+  expect_type(get_encounter_links(),
+              "character")
 
   # max_urls = 3 has vector with length 3
-  expect_length(
-    get_encounter_links("https://www.whaleresearch.com/2022encounters",
-                        max_urls = 3),
-    3
-  )
+  expect_length(get_encounter_links(max_urls = 3), 3)
 
-  # Error if url is not character
-  expect_error(get_encounter_links(2))
+  # Error if year is not numeric
+  expect_error(get_encounter_links(year = "a"))
+
+  # Error if year is not between 2017 and the current year
+  expect_error(get_encounter_links(year = 2000))
+  expect_error(get_encounter_links(year = 2030))
+
+  # Error if user enters more than 1 year
+  expect_error(get_encounter_links(year = 2017:2023))
 
   # Error if max_urls is not numeric
-  expect_error(
-    get_encounter_links("https://www.whaleresearch.com/2022encounters",
-                        max_urls = "a")
-  )
+  expect_error(get_encounter_links(max_urls = "a"))
+})
+
+test_that("get_encounter_data() works", {
+  # Returns character vector
+  expect_type(get_encounter_data("https://www.whaleresearch.com/2023-4"),
+              "character")
+
+  # Error if user enters more than 1 url
+  expect_error(get_encounter_data(
+    c(
+      "https://www.whaleresearch.com/2023-4",
+      "https://www.whaleresearch.com/2023-09"
+    )
+  ))
+})
+
+test_that("parse_encounter() works", {
+  encounter <- get_encounter_data("https://www.whaleresearch.com/2023-13")
+
+  # Returns dataframe
+  expect_s3_class(parse_encounter(encounter), "data.frame")
+
+  # Error if encounter_data is not character vector
+  expect_error(parse_encounter(1))
+})
+
+test_that("make_encounter_df() works", {
+  encounter_urls <- c("https://www.whaleresearch.com/2023-4",
+                       "https://www.whaleresearch.com/2023-09")
+
+  df <- make_encounter_df(encounter_urls)
+
+  # Returns dataframe
+  expect_s3_class(df, "data.frame")
+
+  # Number of rows = number of urls
+  expect_equal(nrow(df), 2)
+
+  # Error if not encounter_urls not character
+  expect_error(make_encounter_df(1))
 })

@@ -18,10 +18,6 @@ Make a Dataframe of Multiple CWR Encounters
 }
 \examples{
 # Piping the `get_encounter_links()` function
-get_encounter_links(max_urls = 3) |>
+get_encounter_links(year = 2023, max_urls = 2) |>
   make_encounter_df()
-
-# Providing a character vector of urls
-make_encounter_df(c("https://www.whaleresearch.com/2023-4",
-                    "https://www.whaleresearch.com/2023-09"))
 }

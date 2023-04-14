@@ -2,7 +2,7 @@
 % Please edit documentation in R/scrape_cwr.R
 \name{make_encounter_df}
 \alias{make_encounter_df}
-\title{Make a Dataframe of Multiple CWR Encounters}
+\title{Make a Dataframe of Multiple CWR Encounters From One Year}
 \usage{
 make_encounter_df(encounter_urls)
 }
@@ -14,7 +14,7 @@ make_encounter_df(encounter_urls)
 Dataframe with one row per encounter.
 }
 \description{
-Make a Dataframe of Multiple CWR Encounters
+Make a Dataframe of Multiple CWR Encounters From One Year
 }
 \examples{
 # Piping the `get_encounter_links()` function

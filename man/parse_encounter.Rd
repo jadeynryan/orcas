@@ -10,12 +10,13 @@ parse_encounter(encounter_data)
 \item{encounter_data}{Character vector from \code{get_encounter_data()}.}
 }
 \value{
-Dataframe with one row of encounter data parsed into columns.
+Dataframe with one row of encounter data parsed into
+columns.
 }
 \description{
 Parse CWR Encounter Data
 }
 \examples{
-get_encounter_data("https://www.whaleresearch.com/2023-13") |>
+get_encounter_data("https://www.whaleresearch.com/2022-13") |>
   parse_encounter()
 }

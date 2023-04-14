@@ -9,8 +9,8 @@ get_encounter_links(year = 2023, max_urls = Inf)
 \arguments{
 \item{year}{Numeric year 2017 or later. Defaults to 2023.}
 
-\item{max_urls}{Number of urls to extract (from newest to oldest). Defaults
-to \code{Inf}.}
+\item{max_urls}{Number of urls to extract (from newest to oldest).
+Defaults to \code{Inf}.}
 }
 \value{
 Character vector of urls.
@@ -20,9 +20,12 @@ Extract encounter links from
 \href{https://www.whaleresearch.com/}{Center for Whale
 Research (CWR)} encounter landing pages.
 
-2022 and 2023 encounters are on their current website while 2017 - 2021
-encounters are on their
-\href{https://whaleresearch.wixsite.com/archives}{archival website}.
+2022 and 2023 encounters are on their current website while 2017
+\itemize{
+\item 2021 encounters are on their
+\href{https://whaleresearch.wixsite.com/archives}{archival
+website}.
+}
 }
 \examples{
 # Get 10 most recent encounter links for one year
@@ -30,6 +33,6 @@ get_encounter_links(year = 2022, max_urls = 10)
 
 # Get all encounter links from 2017 through 2020
 library(purrr)
-purrr::map(2017:2020, get_encounter_links) |>
-  purrr::flatten()
+map(2017:2020, get_encounter_links) |>
+  flatten()
 }

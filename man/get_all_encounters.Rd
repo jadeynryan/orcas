@@ -13,7 +13,12 @@ get_all_encounters(years)
 Dataframe with one row per encounter.
 }
 \description{
-Getting all encounters from 2017 to 2023 makes about 30 minutes.
+Getting all encounters from 2017 to 2023 takes about 30 minutes.
 The resulting dataframe will need to be wrangled and cleaned. See
-\verb{tidy_encounters().}
+how it was tidied in \code{data-raw/data_cwr.R}
+}
+\examples{
+\dontrun{
+    get_all_encounters(2017:2023)
+}
 }

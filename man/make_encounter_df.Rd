@@ -18,6 +18,8 @@ Make a Dataframe of Multiple CWR Encounters From One Year
 }
 \examples{
 # Piping the `get_encounter_links()` function
-get_encounter_links(year = 2023, max_urls = 2) |>
+\dontrun{
+get_encounter_links(year = 2023, max_urls = 5) |>
   make_encounter_df()
+}
 }

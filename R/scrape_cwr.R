@@ -269,8 +269,10 @@ parse_encounter <- function(encounter_data) {
 #'
 #' @examples
 #' # Piping the `get_encounter_links()` function
-#' get_encounter_links(year = 2023, max_urls = 2) |>
+#' \dontrun{
+#' get_encounter_links(year = 2023, max_urls = 5) |>
 #'   make_encounter_df()
+#' }
 make_encounter_df <- function(encounter_urls) {
   if (!is.character(encounter_urls)) {
     stop("encounter_urls must be a character string or vector.")
@@ -286,13 +288,17 @@ make_encounter_df <- function(encounter_urls) {
 
 #' Make a Dataframe of Multiple CWR Encounters From One Year
 #'
-#' Getting all encounters from 2017 to 2023 makes about 30 minutes.
+#' Getting all encounters from 2017 to 2023 takes about 30 minutes.
 #' The resulting dataframe will need to be wrangled and cleaned. See
-#' `tidy_encounters().`
+#' how it was tidied in `data-raw/data_cwr.R`
 #'
 #' @param years Numeric years from 2017 to present day.
 #'
 #' @returns Dataframe with one row per encounter.
+#' @examples
+#' \dontrun{
+#'     get_all_encounters(2017:2023)
+#' }
 #' @export
 #'
 get_all_encounters <- function(years) {
@@ -300,18 +306,4 @@ get_all_encounters <- function(years) {
     purrr::list_c()
   df <- make_encounter_df(links)
   return(df)
-}
-
-#' Save encounter dataframe to .Rdata
-#'
-#' @param df Dataframe to save to data folder.
-#'
-save_encounter_df <- function(df) {
-  name <- deparse(substitute(df))
-
-  if (!fs::dir_exists("data")) {
-    fs::dir_create("data")
-  }
-
-  save(df, file = glue::glue("./data/{name}.Rdata"))
 }

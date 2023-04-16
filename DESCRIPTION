@@ -13,7 +13,8 @@ URL: https://github.com/jadeynryan/orcas
 BugReports: https://github.com/jadeynryan/orcas/issues
 Suggests: 
     covr,
-    fs,
+    lubridate,
+    parzer,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Imports: 

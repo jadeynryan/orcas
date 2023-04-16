@@ -14,6 +14,7 @@
 #' @format A data frame with 593 rows and 16 variables:
 #' \describe{
 #'    \item{nmfs_permit}{Permits for photos}
+#'    \item{enc_year}{Year of encounter}
 #'    \item{enc_date}{Date of encounter}
 #'    \item{enc_seq}{Encounter sequence}
 #'    \item{enc_number}{Encounter number}

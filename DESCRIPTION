@@ -20,6 +20,7 @@ Config/testthat/edition: 3
 Imports: 
     dplyr,
     glue,
+    htmltools,
     janitor,
     leaflet,
     purrr,

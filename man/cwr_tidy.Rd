@@ -5,13 +5,12 @@
 \alias{cwr_tidy}
 \title{CWR tidy}
 \format{
-A data frame with 593 rows and 18 variables:
+A data frame with 593 rows and 19 variables:
 \describe{
-\item{nmfs_permit}{Permits for photos}
 \item{year}{Year of encounter}
-\item{date}{Date of encounter}
 \item{encounter_sequence}{Encounter sequence}
 \item{encounter_number}{Encounter number}
+\item{date}{Date of encounter}
 \item{begin_time}{Encounter start time}
 \item{end_time}{Encounter end time}
 \item{duration}{Duration of encounter}
@@ -25,6 +24,8 @@ A data frame with 593 rows and 18 variables:
 \item{begin_longitude}{Longitude encounter began}
 \item{end_longitude}{Longitude encounter ended}
 \item{encounter_summary}{Summary of encounter}
+\item{nmfs_permit}{Permits for photos}
+\item{link}{URL to encounter webpage}
 ...
 }
 }

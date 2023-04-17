@@ -22,7 +22,7 @@
 #' # Get all encounter links from 2017 through 2020
 #' library(purrr)
 #' map(2017:2020, get_encounter_links) |>
-#'   flatten()
+#'   list_c()
 get_encounter_links <- function(year = 2023,
                                 max_urls = Inf) {
   if (!is.numeric(year)) {
@@ -182,6 +182,10 @@ get_encounter_data <- function(encounter_url) {
       ))
     )]
 
+  # Add URL
+  link <- paste0("link:", encounter_url)
+  results <- c(link, results)
+
   return(results)
 }
 
@@ -231,7 +235,7 @@ parse_encounter <- function(encounter_data) {
     dplyr::slice(summary_row_index:length(results$encounter_data)) |>
     dplyr::summarize(encounter_data = paste(
       encounter_data,
-      collapse = ""
+      collapse = "\n"
     ))
 
   results <- results |>
@@ -282,7 +286,10 @@ make_encounter_df <- function(years, max_urls = Inf) {
   links <- purrr::map(years, get_encounter_links, max_urls) |>
     purrr::list_c()
 
+  # possibly wrapper functions
+  p_parse_encounter <- purrr::possibly(.f = parse_encounter)
+
   links |>
     purrr::map(\(x) get_encounter_data(x), .progress = TRUE) |>
-    purrr::map_df(\(x) parse_encounter(x))
+    purrr::map_df(\(x) p_parse_encounter(x))
 }

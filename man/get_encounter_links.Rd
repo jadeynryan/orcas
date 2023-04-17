@@ -34,5 +34,5 @@ get_encounter_links(year = 2022, max_urls = 10)
 # Get all encounter links from 2017 through 2020
 library(purrr)
 map(2017:2020, get_encounter_links) |>
-  flatten()
+  list_c()
 }

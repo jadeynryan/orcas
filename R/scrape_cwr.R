@@ -259,51 +259,30 @@ parse_encounter <- function(encounter_data) {
   return(results)
 }
 
-#' Make a Dataframe of Multiple CWR Encounters From One Year
-#'
-#' @param encounter_urls Character vector of CWR urls. Pipe
-#'   `get_encounter_links` to this function.
-#'
-#' @returns Dataframe with one row per encounter.
-#' @export
-#'
-#' @examples
-#' # Piping the `get_encounter_links()` function
-#' \dontrun{
-#' get_encounter_links(year = 2023, max_urls = 5) |>
-#'   make_encounter_df()
-#' }
-make_encounter_df <- function(encounter_urls) {
-  if (!is.character(encounter_urls)) {
-    stop("encounter_urls must be a character string or vector.")
-  }
-
-  # Map urls to get_encounter_data() and parse_encounter() functions
-  encounter_urls |>
-    purrr::map(\(x) get_encounter_data(x),
-               .progress = "Getting data") |>
-    purrr::map_df(\(x) parse_encounter(x),
-                  .progress = "Parsing data")
-}
-
-#' Make a Dataframe of Multiple CWR Encounters From One Year
+#' Make a Dataframe of Multiple CWR Encounters
 #'
 #' Getting all encounters from 2017 to 2023 takes about 30 minutes.
 #' The resulting dataframe will need to be wrangled and cleaned. See
 #' how it was tidied in `data-raw/data_cwr.R`
 #'
 #' @param years Numeric years from 2017 to present day.
+#' @param max_urls Number of urls to extract (from newest to oldest
+#'   for each year). Defaults to `Inf`.
 #'
-#' @returns Dataframe with one row per encounter.
-#' @examples
-#' \dontrun{
-#'     get_all_encounters(2017:2023)
-#' }
+#' @returns Dataframe with one row per encounter. This dataframe will
+#'   need to be tidied. See data-raw/data_cwr.R for the data cleaning
+#'   script used to clean 2017:2023 data.
 #' @export
 #'
-get_all_encounters <- function(years) {
-  links <- purrr::map(years, get_encounter_links) |>
+#' @examples
+#' \dontrun{
+#' make_encounter_df(years = 2022:2023, max_urls = 1)
+#' }
+make_encounter_df <- function(years, max_urls = Inf) {
+  links <- purrr::map(years, get_encounter_links, max_urls) |>
     purrr::list_c()
-  df <- make_encounter_df(links)
-  return(df)
+
+  links |>
+    purrr::map(\(x) get_encounter_data(x), .progress = TRUE) |>
+    purrr::map_df(\(x) parse_encounter(x))
 }

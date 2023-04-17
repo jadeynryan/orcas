@@ -2,24 +2,28 @@
 % Please edit documentation in R/scrape_cwr.R
 \name{make_encounter_df}
 \alias{make_encounter_df}
-\title{Make a Dataframe of Multiple CWR Encounters From One Year}
+\title{Make a Dataframe of Multiple CWR Encounters}
 \usage{
-make_encounter_df(encounter_urls)
+make_encounter_df(years, max_urls = Inf)
 }
 \arguments{
-\item{encounter_urls}{Character vector of CWR urls. Pipe
-\code{get_encounter_links} to this function.}
+\item{years}{Numeric years from 2017 to present day.}
+
+\item{max_urls}{Number of urls to extract (from newest to oldest
+for each year). Defaults to \code{Inf}.}
 }
 \value{
-Dataframe with one row per encounter.
+Dataframe with one row per encounter. This dataframe will
+need to be tidied. See data-raw/data_cwr.R for the data cleaning
+script used to clean 2017:2023 data.
 }
 \description{
-Make a Dataframe of Multiple CWR Encounters From One Year
+Getting all encounters from 2017 to 2023 takes about 30 minutes.
+The resulting dataframe will need to be wrangled and cleaned. See
+how it was tidied in \code{data-raw/data_cwr.R}
 }
 \examples{
-# Piping the `get_encounter_links()` function
 \dontrun{
-get_encounter_links(year = 2023, max_urls = 5) |>
-  make_encounter_df()
+make_encounter_df(years = 2022:2023, max_urls = 1)
 }
 }

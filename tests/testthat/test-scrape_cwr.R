@@ -45,17 +45,12 @@ test_that("parse_encounter() works", {
 })
 
 test_that("make_encounter_df() works", {
-  encounter_urls <- c("https://www.whaleresearch.com/2023-4",
-                       "https://www.whaleresearch.com/2023-09")
 
-  df <- make_encounter_df(encounter_urls)
+  df <- make_encounter_df(years = 2022:2023, max_urls = 1)
 
   # Returns dataframe
   expect_s3_class(df, "data.frame")
 
-  # Number of rows = number of urls
+  # Number of rows = number of total urls = number of encounters
   expect_equal(nrow(df), 2)
-
-  # Error if not encounter_urls not character
-  expect_error(make_encounter_df(1))
 })

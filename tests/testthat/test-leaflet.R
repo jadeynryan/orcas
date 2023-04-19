@@ -3,7 +3,7 @@ test_that("make_leaflet() works", {
     encounter_number = c(14, 13),
     date = c("2023-04-08", "2023-03-25"),
     duration = c("4980s (~1.38 hours)", "23700s (~6.58 hours)"),
-    pod_ecotype = c("J, L", "J"),
+    pods_or_ecotype = c("J, L", "J"),
     location = c("East Sooke", "Haro Strait"),
     begin_latitude = c(48.3108329772949, 48.5881652832031),
     begin_longitude = c(-123.664001464844, -123.203163146973),

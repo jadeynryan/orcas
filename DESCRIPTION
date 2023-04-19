@@ -19,11 +19,13 @@ Suggests:
 Config/testthat/edition: 3
 Imports: 
     dplyr,
+    DT,
     glue,
     htmltools,
     janitor,
     leaflet,
     purrr,
+    rlang,
     rvest,
     tidyr,
     utils

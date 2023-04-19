@@ -16,7 +16,7 @@ A data frame with 593 rows and 19 variables:
 \item{duration}{Duration of encounter}
 \item{vessel}{Name of vessel(s) used for encounter observation}
 \item{observers}{Names of observers}
-\item{pod_ecotype}{Pod(s) and/or ecotype observed}
+\item{pods_or_ecotype}{Pod(s) and/or ecotype observed}
 \item{ids_encountered}{IDs of whales encountered}
 \item{location}{Description of location}
 \item{begin_latitude}{Latitude encounter began}

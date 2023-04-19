@@ -66,7 +66,7 @@ cwr_tidy <- cwr_untidy |>
     sep = ",",
     na.rm = TRUE
   ) |>
-  tidyr::unite(pod_ecotype,
+  tidyr::unite(pods_or_ecotype,
     tidyr::any_of(c("pods", "pods_or_ecotype", "ecotype")),
     sep = "",
     na.rm = TRUE
@@ -214,7 +214,7 @@ cwr_tidy <- cwr_tidy |>
   dplyr::rename("ids_encountered" = "i_ds_encountered") |>
   # Relocate columns
   dplyr::relocate("year", .before = "date") |>
-  dplyr::relocate("ids_encountered", .after = "pod_ecotype") |>
+  dplyr::relocate("ids_encountered", .after = "pods_or_ecotype") |>
   # Remove empty rows and columns
   janitor::remove_empty(which = c("rows", "cols")) |>
   # Remove duplicate rows
@@ -222,7 +222,7 @@ cwr_tidy <- cwr_tidy |>
   # Reorder columns
   dplyr::select(year, encounter_sequence, encounter_number,
                 date, begin_time, end_time, duration, vessel,
-                observers, pod_ecotype, ids_encountered, location,
+                observers, pods_or_ecotype, ids_encountered, location,
                 begin_latitude, begin_longitude, end_latitude,
                 end_longitude, encounter_summary, nmfs_permit, link) |>
   # Arrange by date

@@ -2,6 +2,8 @@
 
 export(get_encounter_data)
 export(get_encounter_links)
+export(make_dt)
 export(make_encounter_df)
 export(make_leaflet)
 export(parse_encounter)
+importFrom(rlang,.data)

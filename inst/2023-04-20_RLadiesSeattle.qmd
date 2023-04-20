@@ -204,6 +204,9 @@ orcas::make_leaflet(orcas::cwr_tidy[1:2, ])
 
 ::: columns
 ::: {.column width="45%"}
+
+{{< fa solid display >}} [Slides](https://rpubs.com/jadeynryan/orcas_RLadiesSeattleTalk)
+
 {{< fa brands github >}} [{orcas} GitHub Repo](https://github.com/jadeynryan/orcas)
 
 {{< fa brands linkedin >}} [linkedin.com/in/jadey-ryan](https://www.linkedin.com/in/jadey-ryan)

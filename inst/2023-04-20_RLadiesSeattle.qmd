@@ -1,0 +1,204 @@
+---
+title: "Web Scraping & Mapping <br>Orca Encounters"
+subtitle: "R in the Outdoors | R Ladies Seattle"
+author: "Jadey Ryan | April 20, 2023"
+footer: "{{< fa brands github >}} [https://github.com/jadeynryan/orcas](https://github.com/jadeynryan/orcas)"
+format: 
+  revealjs:
+    theme: style.scss
+    width: 1200
+    link-external-newwindow: true
+    slide-number: c/t
+    code-overflow: scroll
+    highlight-style: gruvbox
+    df-print: kable
+    embed-resources: true
+    touch: true
+    keyboard: true
+execute: 
+  echo: true
+  freeze: true
+editor: visual
+---
+
+## Center for Whale Research
+
+::: columns
+::: {.column width="60%"}
+[![L86 and L47 (Dave Ellifrit, Center for Whale Research © 2020)](img/L86_L47_DEllifrit_2020.webp){fig-alt="L86 and L47 displaying their right saddle patch  (Dave Ellifrit, Center for Whale Research © 2020)" fig-align="left" width="100%"}](https://www.whaleresearch.com/post/socialcircles)
+:::
+
+::: {.column .fragment width="40%"}
+595 orca encounters = 595 separate webpages to scrape!
+:::
+:::
+
+## Webscrape with {rvest}
+
+-   Read webpage with `read_html()`
+-   Extract specific parts with `html_elements()`
+    -   `html_elements()` vs `html_elements()`
+
+    -   `html_text()` vs `html_text2()`
+
+    -   `html_attr(), html_table()`, and other `html_*()`
+
+```{r}
+#| output-location: fragment
+rvest::read_html(
+  "https://www.whaleresearch.com/2022encounters") |>
+  rvest::html_elements(
+    xpath = "//*[starts-with(@id, 'comp-l3369ith')]//a") |>
+  rvest::html_attr("href") |> 
+  head(2)
+```
+
+## Understand what to extract
+
+<!-- -->
+
+    <html>
+    <body>
+      <h1 id='first'>A heading</h1>
+      <p>Some text &amp; <b>some bold text.</b></p>
+      <img src='myimg.png' width='100' height='100'>
+    </body>
+
+-   **Element**: start tag, content, end tag ([list of elements](https://www.w3schools.com/tags/default.asp))
+
+-   **Attribute**: optional info about elements ([list of attributes](https://www.w3schools.com/tags/ref_attributes.asp))
+
+-   `rvest::html_*()` requires `css` or `xpath` arguments to define the element selectors
+
+-   Beware of [dynamic CSS classes](https://r4ds.hadley.nz/webscraping.html#dynamic-sites) and respect [robots.txt files](https://developers.google.com/search/docs/crawling-indexing/robots/intro)
+
+## Tools to identify selectors
+
+```{r, results='hide'}
+#| code-line-numbers: "4"
+rvest::read_html(
+  "https://www.whaleresearch.com/2022encounters") |>
+  rvest::html_elements(
+    xpath = "//*[starts-with(@id, 'comp-l3369ith')]//a") |>
+  rvest::html_attr("href") |> 
+  head()
+```
+
+::: incremental
+-   Browser developer tools: right click \> **Inspect** or **View Page Source**
+-   SelectorGadget: [bookmark installation](https://rvest.tidyverse.org/articles/selectorgadget.html) or [Google chrome plugin](https://chrome.google.com/webstore/detail/selectorgadget/mhjhnkcfbdhnjickkkdbjoemdmbfginb?hl=en)
+-   Lots of **patience** and **trial & error**
+:::
+
+## `{orcas}`: all together now
+
+::: panel-tabset
+## Get links
+
+Scrape landing page to get links to encounter webpages
+
+```{r}
+#| output-location: fragment
+orcas::get_encounter_links(year = 2023, max_urls = 2)
+```
+
+## Extract data
+
+Extract data from webpage
+
+Don't overload the site! Use [{polite}](https://dmi3kno.github.io/polite/) or `sys.sleep()`.
+
+```{r}
+#| output-location: fragment
+orcas::get_encounter_data("https://www.whaleresearch.com/2023-14")
+```
+
+## Parse data
+
+Parse individual encounter data into dataframe
+
+```{r}
+#| output-location: fragment
+orcas::get_encounter_data("https://www.whaleresearch.com/2023-14") |>
+  orcas::parse_encounter()
+```
+
+## Combine
+
+Combine previous 3 functions to scrape and combine all desired encounters
+
+```{r}
+make_encounter_df <- function(years, max_urls = Inf) {
+  links <- purrr::map(years, get_encounter_links, max_urls) |>
+    purrr::list_c()
+
+  links |>
+    purrr::map(\(x) get_encounter_data(x), .progress = TRUE) |>
+    purrr::map_df(\(x) parse_encounter(x))
+}
+```
+
+```{r}
+#| output-location: fragment
+orcas::make_encounter_df(years = 2022:2023, max_urls = 1)
+```
+
+## Tidy
+
+Final tidying and packaging data set in `data-raw/data_cwr.R`
+
+![](img/hex.png){fig-align="center" width="500"}
+:::
+
+## (Mostly) tidy data set
+
+```{r}
+orcas::make_dt(orcas::cwr_tidy[1:50, ])
+```
+
+## Mapping with whale icons!
+
+```{r}
+orcas::make_leaflet(orcas::cwr_tidy[1:2, ])
+```
+
+## Future `TODO`
+
+-   Continue to clean data set (finding/fixing typos and blanks)
+-   Figure out [lightbox](https://www.whaleresearch.com/2023-14?lightbox=dataItem-lg9hv0j5) and dynamic classes to show photos
+-   Modal popup with long encounter summary from selecting row in datatable
+-   Connect beginning and end coordinates in map
+-   Shiny app ✨
+-   Other whale data 🐋
+
+## Resources
+
+**Webscraping**
+
+-   `{rvest}` [documentation](https://rvest.tidyverse.org/index.html)
+-   Dataslice [webscraping playlist](https://www.youtube.com/playlist?list=PLr5uaPu5L7xLEclrT0-2TWAz5FTkfdUiW)
+-   John Little [case study](https://www.youtube.com/watch?v=8ISc8V9GDAg)
+
+**Mapping**
+
+-   `{leaflet}` [R documentation](https://rstudio.github.io/leaflet/)
+-   Leaflet [providers preview](https://leaflet-extras.github.io/leaflet-providers/preview/)
+
+## ⭐⭐⭐⭐⭐       personal project
+
+::: columns
+::: {.column width="45%"}
+
+{{< fa brands github >}} [{orcas} GitHub Repo](https://github.com/jadeynryan/orcas)
+
+{{< fa brands linkedin >}} [linkedin.com/in/jadey-ryan](https://www.linkedin.com/in/jadey-ryan)
+
+{{< fa brands twitter >}} [@jadeynryan](https://twitter.com/jadeynryan)
+
+{{< fa solid briefcase >}} [WSDA NRAS Webpage](https://agr.wa.gov/agscience)
+:::
+
+::: {.column width="55%"}
+![L115 Breaching (Center for Whale Research 2023)](img/L115_2023.webp){fig-alt="L115 Breaching (Center for Whale Research 2023)"}
+:::
+:::

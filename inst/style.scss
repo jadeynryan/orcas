@@ -1,0 +1,107 @@
+// Include theme-specific fonts
+@import url('https://fonts.googleapis.com/css2?family=Domine&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+
+/*-- scss:defaults --*/
+  // Override theme settings (see ../template/settings.scss)
+// Base settings for all themes that can optionally be
+// overridden by the super-theme
+
+// Background of the presentation
+$backgroundColor: #E4E4DD;
+
+  // Primary/body text
+$mainFont: 'Nunito', sans-serif;
+$mainFontSize: 35px;
+$mainColor: #583523;
+
+  // Vertical spacing between blocks of text
+$blockMargin: 12px;
+
+// Headings
+$headingMargin: 0 0 $blockMargin 0;
+$headingFont: 'Domine', serif;
+$headingColor: #AF6B46;
+$headingLineHeight: 1.2;
+$headingLetterSpacing: 2px;
+$headingTextTransform: none;
+$headingTextShadow: none;
+$headingFontWeight: bold;
+
+$heading1Size: 2.5em;
+$heading2Size: 2.2em;
+$heading3Size: 1.5em;
+$heading4Size: 1.0em;
+
+$codeFont: monospace;
+
+// Links and actions
+$linkColor: #bb255e;
+  $linkColorHover: darken( $linkColor, 20% );
+
+// Text selection
+$selectionBackgroundColor: #AF6B46;
+  $selectionColor: #fff;
+
+  // start using css here
+
+.h2 {
+  padding-bottom: 20px !important;
+}
+
+.subtitle {
+  font-size: $heading3Size;
+  font-weight: bold;
+}
+
+#title-slide .subtitle {
+  margin-top: 6rem;
+}
+
+.quarto-title-author-name {
+  font-size: $heading3Size;
+}
+
+.reveal div.sourceCode {
+  border: 0px solid !important;
+  border-radius: 0!important;
+  margin-bottom: 15px !important;
+}
+
+.reveal pre code {
+  max-height: 250px!important;
+}
+
+.kable-table {
+  font-size: 20px!important;
+}
+
+.reveal .footer {
+  font-size: 30px!important;
+  color: #bb255e;
+}
+
+.fab, .fa-brands {
+  font-family: 'Font Awesome 6 Brands';
+  font-weight: 400;
+  color: #bb255e;
+}
+
+.fas, .fa-solid {
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    color: #bb255e;
+}
+
+div.datatables {
+    color: #583523!important;
+    font-size: 20px!important;
+    overflow-x: scroll!important;
+    overflow-y: scroll!important;
+    height: 500px!important;
+}
+
+.leaflet {
+  width: 100%!important;
+  height: 500px!important;
+}

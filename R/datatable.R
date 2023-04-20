@@ -10,39 +10,33 @@
 #' @export
 #'
 #' @examples
-#'   df <- data.frame(
-#'     encounter_number = c(14, 13),
-#'     date = c("2023-04-08", "2023-03-25"),
-#'     duration = c("4980s (~1.38 hours)", "23700s (~6.58 hours)"),
-#'     pods_or_ecotype = c("J, L", "J"),
-#'     location = c("East Sooke", "Haro Strait"),
-#'     begin_latitude = c(48.3108329772949, 48.5881652832031),
-#'     begin_longitude = c(-123.664001464844, -123.203163146973),
-#'     end_latitude = c(48.300666809082, 48.7113342285156),
-#'     end_longitude = c(-123.747329711914, -123.272163391113),
-#'     encounter_summary = c(
-#'       "While out scanning the western...[trunc]",
-#'       "After receiving reports of J pod ...[trunc]"
-#'     ),
-#'     link = c(
-#'       "https://www.whaleresearch.com/2023-14",
-#'       "https://www.whaleresearch.com/2023-13"
-#'     )
-#'   )
-#' make_dt(df)
+#' make_dt(orcas::cwr_tidy[1:5, ])
 make_dt <- function(data) {
   data <- data |>
-    dplyr::mutate(link = href(.data$link)) |>
+    dplyr::mutate(
+      link = href(.data$link),
+      duration = as.numeric(.data$duration) / 60
+    ) |>
+    dplyr::select(!tidyr::matches("year|sequence|latitude|longitude|permit|ids")) |>
     janitor::clean_names(case = "sentence") |>
-    dplyr::select(!tidyr::matches("latitude|longitude|permit"))
+    dplyr::rename("Duration (min)" = "Duration")
 
   table <- data |> DT::datatable(
+    fillContainer = TRUE,
     class = "table-compact row-border",
     rownames = FALSE,
     escape = FALSE,
     extensions = c("Buttons", "Scroller"),
     options = list(
+      initComplete = DT::JS(
+        "function(settings, json) {",
+        "$(this.api().table().header()).css({'background-color': '#406342', 'color': '#fff'});",
+        "}"
+      ),
       dom = "Bfrtip",
+      autowidth = TRUE,
+      pageLength = 5,
+      lengthMenu = c(5, 10, 15, 20),
       buttons = list(
         list(
           extend = "excel",
@@ -55,6 +49,17 @@ make_dt <- function(data) {
         ),
         list(
           extend = "pageLength"
+        )
+      ),
+      columnDefs = list(
+        list(
+          targets = 9,
+          render = DT::JS(
+            "function(data, type, row, meta) {",
+            "return type === 'display' && data.length > 10 ?",
+            "'<span title=\"' + data + '\">' + data.substr(0, 10) + '...</span>' : data;",
+            "}"
+          )
         )
       )
     )

@@ -220,11 +220,12 @@ cwr_tidy <- cwr_tidy |>
   # Remove duplicate rows
   dplyr::distinct() |>
   # Reorder columns
-  dplyr::select(year, encounter_sequence, encounter_number,
-                date, begin_time, end_time, duration, vessel,
-                observers, pods_or_ecotype, ids_encountered, location,
+  dplyr::select(year, date, encounter_sequence, encounter_number,
+                begin_time, end_time, duration, vessel, observers,
+                pods_or_ecotype, ids_encountered, location,
                 begin_latitude, begin_longitude, end_latitude,
-                end_longitude, encounter_summary, nmfs_permit, link) |>
+                end_longitude, encounter_summary, nmfs_permit,
+                link) |>
   # Arrange by date
   dplyr::arrange(desc(date))
 

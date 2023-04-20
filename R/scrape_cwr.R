@@ -286,7 +286,7 @@ make_encounter_df <- function(years, max_urls = Inf) {
   links <- purrr::map(years, get_encounter_links, max_urls) |>
     purrr::list_c()
 
-  # possibly wrapper functions
+  # possibly wrapper function
   p_parse_encounter <- purrr::possibly(.f = parse_encounter)
 
   links |>

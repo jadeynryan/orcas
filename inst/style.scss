@@ -8,12 +8,12 @@
 // overridden by the super-theme
 
 // Background of the presentation
-$backgroundColor: #E4E4DD;
+$backgroundColor: #F3F5F6;
 
   // Primary/body text
 $mainFont: 'Nunito', sans-serif;
 $mainFontSize: 35px;
-$mainColor: #583523;
+$mainColor: #565E5A;
 
   // Vertical spacing between blocks of text
 $blockMargin: 12px;
@@ -21,7 +21,7 @@ $blockMargin: 12px;
 // Headings
 $headingMargin: 0 0 $blockMargin 0;
 $headingFont: 'Domine', serif;
-$headingColor: #AF6B46;
+$headingColor: #55738B;
 $headingLineHeight: 1.2;
 $headingLetterSpacing: 2px;
 $headingTextTransform: none;
@@ -36,11 +36,11 @@ $heading4Size: 1.0em;
 $codeFont: monospace;
 
 // Links and actions
-$linkColor: #bb255e;
+$linkColor: #7495B2;
   $linkColorHover: darken( $linkColor, 20% );
 
 // Text selection
-$selectionBackgroundColor: #AF6B46;
+$selectionBackgroundColor: #55738B;
   $selectionColor: #fff;
 
   // start using css here
@@ -78,27 +78,25 @@ $selectionBackgroundColor: #AF6B46;
 
 .reveal .footer {
   font-size: 30px!important;
-  color: #bb255e;
+  color: #7495B2;
 }
 
 .fab, .fa-brands {
   font-family: 'Font Awesome 6 Brands';
   font-weight: 400;
-  color: #bb255e;
+  color: #7495B2;
 }
 
 .fas, .fa-solid {
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
-    color: #bb255e;
+    color: #7495B2;
 }
 
 div.datatables {
-    color: #583523!important;
+    color: #565E5A!important;
     font-size: 20px!important;
-    overflow-x: scroll!important;
-    overflow-y: scroll!important;
-    height: 500px!important;
+    height: 450px!important;
 }
 
 .leaflet {

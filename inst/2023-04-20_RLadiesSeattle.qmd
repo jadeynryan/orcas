@@ -1,7 +1,11 @@
 ---
-title: "Web Scraping & Mapping <br>Orca Encounters"
+title: "Web Scraping & Mapping <br>{orcas} Encounters"
 subtitle: "R in the Outdoors | R Ladies Seattle"
 author: "Jadey Ryan | April 20, 2023"
+title-slide-attributes: 
+  data-background-image: img/J53_breach_2022.webp
+  data-background-color: "black"
+  data-background-opacity: "0.5"
 footer: "{{< fa brands github >}} [https://github.com/jadeynryan/orcas](https://github.com/jadeynryan/orcas)"
 format: 
   revealjs:
@@ -29,20 +33,23 @@ editor: visual
 :::
 
 ::: {.column .fragment width="40%"}
-595 orca encounters = 595 separate webpages to scrape!
+Almost 600 orca encounters ➡ almost 600 separate webpages to scrape!
 :::
 :::
 
 ## Webscrape with {rvest}
 
--   Read webpage with `read_html()`
--   Extract specific parts with `html_elements()`
-    -   `html_elements()` vs `html_elements()`
+::: incremental
+1.  Read webpage with `read_html()`
+2.  Extract specific parts with:
+    -   `html_element()` vs `html_elements()`
 
     -   `html_text()` vs `html_text2()`
 
     -   `html_attr(), html_table()`, and other `html_*()`
+:::
 
+::: fragment
 ```{r}
 #| output-location: fragment
 rvest::read_html(
@@ -52,6 +59,7 @@ rvest::read_html(
   rvest::html_attr("href") |> 
   head(2)
 ```
+:::
 
 ## Understand what to extract
 
@@ -64,6 +72,7 @@ rvest::read_html(
       <img src='myimg.png' width='100' height='100'>
     </body>
 
+::: incremental
 -   **Element**: start tag, content, end tag ([list of elements](https://www.w3schools.com/tags/default.asp))
 
 -   **Attribute**: optional info about elements ([list of attributes](https://www.w3schools.com/tags/ref_attributes.asp))
@@ -71,6 +80,7 @@ rvest::read_html(
 -   `rvest::html_*()` requires `css` or `xpath` arguments to define the element selectors
 
 -   Beware of [dynamic CSS classes](https://r4ds.hadley.nz/webscraping.html#dynamic-sites) and respect [robots.txt files](https://developers.google.com/search/docs/crawling-indexing/robots/intro)
+:::
 
 ## Tools to identify selectors
 
@@ -95,7 +105,7 @@ rvest::read_html(
 ::: panel-tabset
 ## Get links
 
-Scrape landing page to get links to encounter webpages
+Scrape landing pages to get links to encounter webpages
 
 ```{r}
 #| output-location: fragment
@@ -128,6 +138,7 @@ orcas::get_encounter_data("https://www.whaleresearch.com/2023-14") |>
 Combine previous 3 functions to scrape and combine all desired encounters
 
 ```{r}
+#| output-location: fragment  
 make_encounter_df <- function(years, max_urls = Inf) {
   links <- purrr::map(years, get_encounter_links, max_urls) |>
     purrr::list_c()
@@ -136,11 +147,8 @@ make_encounter_df <- function(years, max_urls = Inf) {
     purrr::map(\(x) get_encounter_data(x), .progress = TRUE) |>
     purrr::map_df(\(x) parse_encounter(x))
 }
-```
 
-```{r}
-#| output-location: fragment
-orcas::make_encounter_df(years = 2022:2023, max_urls = 1)
+orcas::make_encounter_df(years = 2023, max_urls = 1)
 ```
 
 ## Tidy
@@ -162,9 +170,9 @@ orcas::make_dt(orcas::cwr_tidy[1:50, ])
 orcas::make_leaflet(orcas::cwr_tidy[1:2, ])
 ```
 
-## Future `TODO`
+## Future `TODO` {visibility="hidden"}
 
--   Continue to clean data set (finding/fixing typos and blanks)
+-   Continue to clean data set (finding/fixing typos and blanks; especially duration!)
 -   Figure out [lightbox](https://www.whaleresearch.com/2023-14?lightbox=dataItem-lg9hv0j5) and dynamic classes to show photos
 -   Modal popup with long encounter summary from selecting row in datatable
 -   Connect beginning and end coordinates in map
@@ -173,22 +181,29 @@ orcas::make_leaflet(orcas::cwr_tidy[1:2, ])
 
 ## Resources
 
+::: columns
+::: {.column width="45%"}
 **Webscraping**
 
 -   `{rvest}` [documentation](https://rvest.tidyverse.org/index.html)
 -   Dataslice [webscraping playlist](https://www.youtube.com/playlist?list=PLr5uaPu5L7xLEclrT0-2TWAz5FTkfdUiW)
--   John Little [case study](https://www.youtube.com/watch?v=8ISc8V9GDAg)
+-   John Little [case study tutorial](https://www.youtube.com/watch?v=8ISc8V9GDAg)
 
 **Mapping**
 
 -   `{leaflet}` [R documentation](https://rstudio.github.io/leaflet/)
 -   Leaflet [providers preview](https://leaflet-extras.github.io/leaflet-providers/preview/)
+:::
 
-## ⭐⭐⭐⭐⭐       personal project
+::: {.column width="45%"}
+![Half breach (Center for Whale Research 2023)](img/half_breach_2023.webp){.absolute top="5" right="10" width="450px" height="auto" fig-alt="Half breach (Center for Whale Research 2023)"} ![Spyhop (Center for Whale Research)](img/spyhop_2023.webp){.absolute bottom="50" right="150" width="450px" height="auto" fig-alt="Spyhop (Center for Whale Research 2023)"}
+:::
+:::
+
+## ⭐⭐⭐⭐⭐ personal project
 
 ::: columns
 ::: {.column width="45%"}
-
 {{< fa brands github >}} [{orcas} GitHub Repo](https://github.com/jadeynryan/orcas)
 
 {{< fa brands linkedin >}} [linkedin.com/in/jadey-ryan](https://www.linkedin.com/in/jadey-ryan)

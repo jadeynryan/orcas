@@ -30,7 +30,7 @@ make_dt <- function(data) {
     options = list(
       initComplete = DT::JS(
         "function(settings, json) {",
-        "$(this.api().table().header()).css({'background-color': '#406342', 'color': '#fff'});",
+        "$(this.api().table().header()).css({'background-color': '#3C584A', 'color': '#fff'});",
         "}"
       ),
       dom = "Bfrtip",

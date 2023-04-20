@@ -11,8 +11,8 @@
 make_leaflet <- function(data) {
 
   # Icon urls
-  whale_url <- "https://raw.githack.com/jadeynryan/orcas/master/inst/whale.png"
-  tail_url <- "https://raw.githack.com/jadeynryan/orcas/master/inst/tail.png"
+  whale_url <- "https://raw.githack.com/jadeynryan/orcas/master/inst/img/whale.png"
+  tail_url <- "https://raw.githack.com/jadeynryan/orcas/master/inst/img/tail.png"
 
   # Set up icon list
   icons <- leaflet::iconList(

@@ -22,7 +22,6 @@ format:
 execute: 
   echo: true
   freeze: true
-editor: visual
 ---
 
 ## Center for Whale Research
@@ -65,12 +64,14 @@ rvest::read_html(
 
 <!-- -->
 
-    <html>
-    <body>
-      <h1 id='first'>A heading</h1>
-      <p>Some text &amp; <b>some bold text.</b></p>
-      <img src='myimg.png' width='100' height='100'>
-    </body>
+```         
+<html>
+<body>
+  <h1 id='first'>A heading</h1>
+  <p>Some text &amp; <b>some bold text.</b></p>
+  <img src='myimg.png' width='100' height='100'>
+</body>
+```
 
 ::: incremental
 -   **Element**: start tag, content, end tag ([list of elements](https://www.w3schools.com/tags/default.asp))
@@ -204,7 +205,6 @@ orcas::make_leaflet(orcas::cwr_tidy[1:2, ])
 
 ::: columns
 ::: {.column width="45%"}
-
 {{< fa solid display >}} [Slides](https://rpubs.com/jadeynryan/orcas_RLadiesSeattleTalk)
 
 {{< fa brands github >}} [{orcas} GitHub Repo](https://github.com/jadeynryan/orcas)
@@ -214,6 +214,12 @@ orcas::make_leaflet(orcas::cwr_tidy[1:2, ])
 {{< fa brands twitter >}} [@jadeynryan](https://twitter.com/jadeynryan)
 
 {{< fa solid briefcase >}} [WSDA NRAS Webpage](https://agr.wa.gov/agscience)
+
+<br>
+
+::: {.style="font-size=12px"}
+All photos and data belong to the [Center for Whale Research](https://www.whaleresearch.com "Center for Whale Research URL"), a 501c3 nonprofit organization registered in Washington State.
+:::
 :::
 
 ::: {.column width="55%"}

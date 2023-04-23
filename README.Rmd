@@ -24,9 +24,11 @@ knitr::opts_chunk$set(
 
 The goal of `orcas` is to scrape orca sighting data from the web and visualize it in maps and tables.
 
-[R Ladies Seattle](https://rladiesseattle.org "R Ladies Seattle URL") invited me to give a talk for the 'R in the Outdoors' [meetup](https://www.meetup.com/rladies-seattle/ "meetup URL"). This was my first in-person talk of my professional career! I used this as an opportunity to learn new skills through a personal project. I've always had an affinity for the Southern Resident Killer Whales in the Salish Sea. The [Center for Whale Research](https://www.whaleresearch.com "Center for Whale Research URL") does a lot of really fascinating and important work monitoring their population and posts their survey data on their website. Each encounter with the orcas is a separate webpage. Lately, I've been curious and intimidated by web scraping so I decided this would make a great case study and personal project.
+[R Ladies Seattle](https://rladiesseattle.org "R Ladies Seattle URL") invited me to give a talk for the 'R in the Outdoors' [meetup](https://www.meetup.com/rladies-seattle/ "meetup URL"). This was my first in-person talk of my professional career! I used this as an opportunity to learn new skills through a personal project. I've always had an affinity for the Southern Resident Killer Whales in the Salish Sea. The [Center for Whale Research](https://www.whaleresearch.com "Center for Whale Research URL") does a lot of really fascinating and important work monitoring their population. They post their survey data on their website; each encounter with the orcas is a separate webpage. Lately, I've been curious and intimidated by web scraping so I decided this would make a great case study and personal project.
 
 `orcas` is still a work in progress, as the `cwr_tidy` dataset is mostly tidy but not completely clean. There are still missing values and typos, as evident from some encounters having a negative duration.
+
+> All photos and data belong to the Center for Whale Research, a 501c3 nonprofit organization registered in Washington State.
 
 ## Installation
 

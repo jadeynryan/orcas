@@ -23,7 +23,7 @@ had an affinity for the Southern Resident Killer Whales in the Salish
 Sea. The [Center for Whale
 Research](https://www.whaleresearch.com "Center for Whale Research URL")
 does a lot of really fascinating and important work monitoring their
-population and posts their survey data on their website. Each encounter
+population. They post their survey data on their website; each encounter
 with the orcas is a separate webpage. Lately, I’ve been curious and
 intimidated by web scraping so I decided this would make a great case
 study and personal project.
@@ -31,6 +31,9 @@ study and personal project.
 `orcas` is still a work in progress, as the `cwr_tidy` dataset is mostly
 tidy but not completely clean. There are still missing values and typos,
 as evident from some encounters having a negative duration.
+
+> All photos and data belong to the Center for Whale Research, a 501c3
+> nonprofit organization registered in Washington State.
 
 ## Installation
 

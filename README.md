@@ -29,7 +29,7 @@ intimidated by web scraping so I decided this would make a great case
 study and personal project.
 
 I ended up also going to the [Seattle useR
-Group](https://www.meetup.com/seattle-user/) lighnting talks meetup
+Group](https://www.meetup.com/seattle-user/) lightning talks meetup
 afterwards and spontaneously gave the same presentation there!
 
 `orcas` is still a work in progress, as the `cwr_tidy` dataset is mostly
@@ -66,7 +66,7 @@ Outdoors hosted by R Ladies Seattle, presented by Jadey Ryan on April
 ``` r
 orcas::make_encounter_df(years = 2022:2023, max_urls = 2)
 #> Scraped: https://www.whaleresearch.com/20223-36
-#>  ■■■■■■■■■                         25% |  ETA:  8sScraped: https://www.whaleresearch.com/2022-82
+#>  ■■■■■■■■■                         25% |  ETA:  7sScraped: https://www.whaleresearch.com/2022-82
 #>  ■■■■■■■■■■■■■■■■                  50% |  ETA:  5sScraped: https://www.whaleresearch.com/2023-66
 #>  ■■■■■■■■■■■■■■■■■■■■■■■           75% |  ETA:  3sScraped: https://www.whaleresearch.com/2023-65
 #>                                                    

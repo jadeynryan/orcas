@@ -28,6 +28,10 @@ with the orcas is a separate webpage. Lately, I’ve been curious and
 intimidated by web scraping so I decided this would make a great case
 study and personal project.
 
+I ended up also going to the [Seattle useR
+Grouup](https://www.meetup.com/seattle-user/) lighnting talks meetup
+afterwards and spontaneously gave the same presentation there!
+
 `orcas` is still a work in progress, as the `cwr_tidy` dataset is mostly
 tidy but not completely clean. There are still missing values and typos,
 as evident from some encounters having a negative duration.
@@ -48,12 +52,12 @@ devtools::install_github("jadeynryan/orcas")
 ## R in the Outdoors Presentation
 
 While there is no recording of the talk, you can view the
-[slides](https://rpubs.com/jadeynryan/orcas_RLadiesSeattleTalk "slides URL").
+[slides](https://jadeynryan.github.io/orcas/ "slides URL").
 
 [![Title slide: “Web Scraping & Mapping {orcas} Encounters”, R in the
 Outdoors hosted by R Ladies Seattle, presented by Jadey Ryan on April
 20,
-2023](inst/img/title_slide_J53_breach_2022.png)](https://rpubs.com/jadeynryan/orcas_RLadiesSeattleTalk)
+2023](inst/img/title_slide_J53_breach_2022.png)](https://jadeynryan.github.io/orcas/)
 
 ## Examples
 
@@ -61,21 +65,21 @@ Outdoors hosted by R Ladies Seattle, presented by Jadey Ryan on April
 
 ``` r
 orcas::make_encounter_df(years = 2022:2023, max_urls = 2)
-#> Scraped: https://www.whaleresearch.com/2022-82
-#>  ■■■■■■■■■                         25% |  ETA:  7sScraped: https://www.whaleresearch.com/2022-81
-#>  ■■■■■■■■■■■■■■■■                  50% |  ETA:  5sScraped: https://www.whaleresearch.com/2023-14
-#>  ■■■■■■■■■■■■■■■■■■■■■■■           75% |  ETA:  2sScraped: https://www.whaleresearch.com/2023-13
+#> Scraped: https://www.whaleresearch.com/20223-36
+#>  ■■■■■■■■■                         25% |  ETA:  8sScraped: https://www.whaleresearch.com/2022-82
+#>  ■■■■■■■■■■■■■■■■                  50% |  ETA:  5sScraped: https://www.whaleresearch.com/2023-66
+#>  ■■■■■■■■■■■■■■■■■■■■■■■           75% |  ETA:  3sScraped: https://www.whaleresearch.com/2023-65
 #>                                                    
 #> # A tibble: 4 × 17
-#>   link          enc_date enc_seq enc_number observ_begin observ_end vessel staff
-#>   <chr>         <chr>    <chr>   <chr>      <chr>        <chr>      <chr>  <chr>
-#> 1 https://www.… "27/12/… 1       82         03:20 PM     04:19 PM   Mike 1 Mark…
-#> 2 https://www.… "08/12/… 1       81         02:40 PM     03:42 PM   Mike 1 Mark…
-#> 3 https://www.… "08/04/… 1       14         04:22 PM     05:45 PM   Mike 1 Mark…
-#> 4 https://www.… "25/03/… 1       13         09:30 AM     02:55 PM   Orcin… Dave…
-#> # ℹ 9 more variables: other_observers <chr>, pods <chr>, location_descr <chr>,
-#> #   start_latitude <chr>, start_longitude <chr>, end_latitude <chr>,
-#> #   end_longitude <chr>, enc_summary <chr>, nmfs_permit <chr>
+#>   nmfs_permit   link  enc_date enc_seq enc_number observ_begin observ_end vessel
+#>   <chr>         <chr> <chr>    <chr>   <chr>      <chr>        <chr>      <chr> 
+#> 1 " 21238/ DFO… http… "07/07/… 1       36         11:25 AM     01:50 PM   Mike 1
+#> 2  <NA>         http… "27/12/… 1       82         03:20 PM     04:19 PM   Mike 1
+#> 3 " 27038/ DFO… http… "07/10/… 1       66         04:20 PM     07:04 PM   Mike 1
+#> 4 " 27038/ DFO… http… "06/10/… 1       65         11:58 AM     12:50 PM   Orcin…
+#> # ℹ 9 more variables: staff <chr>, other_observers <chr>, pods <chr>,
+#> #   location_descr <chr>, start_latitude <chr>, start_longitude <chr>,
+#> #   end_latitude <chr>, end_longitude <chr>, enc_summary <chr>
 ```
 
 **Make an interactive DT of 2023 encounters:**
@@ -86,10 +90,14 @@ orcas::cwr_tidy |>
   orcas::make_dt()
 ```
 
-![Screenshot of datatable with two rows and columns: “Date”, “Encounter
-number”, “Begin time”, “End time”, “Duration (min)”, “Vessel”,
-“Observers”, “Pods or ecotype”, “Location”, and “Encounter
-summary”.](inst/img/dt_screenshot.png)
+<figure>
+<img src="inst/img/dt_screenshot.png"
+alt="Screenshot of datatable with two rows and columns: “Date”, “Encounter number”, “Begin time”, “End time”, “Duration (min)”, “Vessel”, “Observers”, “Pods or ecotype”, “Location”, and “Encounter summary”." />
+<figcaption aria-hidden="true">Screenshot of datatable with two rows and
+columns: “Date”, “Encounter number”, “Begin time”, “End time”, “Duration
+(min)”, “Vessel”, “Observers”, “Pods or ecotype”, “Location”, and
+“Encounter summary”.</figcaption>
+</figure>
 
 **Make an interactive leaflet map of last two 2023 encounters:**
 
@@ -100,5 +108,9 @@ orcas::cwr_tidy |>
   orcas::make_leaflet()
 ```
 
-![Screenshot of leaflet map with whale icons representing the start and
-end of the encounters.](inst/img/leaflet_screenshot.png)
+<figure>
+<img src="inst/img/leaflet_screenshot.png"
+alt="Screenshot of leaflet map with whale icons representing the start and end of the encounters." />
+<figcaption aria-hidden="true">Screenshot of leaflet map with whale
+icons representing the start and end of the encounters.</figcaption>
+</figure>

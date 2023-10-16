@@ -215,7 +215,7 @@ orcas::make_leaflet(orcas::cwr_tidy[1:2, ])
 
 {{< fa solid briefcase >}} [WSDA NRAS Webpage](https://agr.wa.gov/agscience)
 
-<br>
+<br> 
 
 ::: {.style="font-size=12px"}
 All photos and data belong to the [Center for Whale Research](https://www.whaleresearch.com "Center for Whale Research URL"), a 501c3 nonprofit organization registered in Washington State.

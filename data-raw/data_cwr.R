@@ -1,7 +1,8 @@
 ## Code to prepare `data_cwr` dataset
 
 # Initial scrape to extract and tidy all encounter date
-cwr_untidy <- orcas::make_encounter_df(years = 2017:2023)
+cwr_untidy <- orcas::make_encounter_df(years = 2017:2024)
+write.csv(cwr_untidy, "data-raw/cwr_untidy.csv", row.names = FALSE)
 usethis::use_data(cwr_untidy, overwrite = TRUE)
 
 # Tidy dataframe by uniting columns with the same data but slightly
@@ -229,5 +230,5 @@ cwr_tidy <- cwr_tidy |>
   # Arrange by date
   dplyr::arrange(desc(date))
 
-write.csv(cwr_tidy, "data-raw/cwr_tidy.csv")
+write.csv(cwr_tidy, "data-raw/cwr_tidy.csv", row.names = FALSE)
 usethis::use_data(cwr_tidy, overwrite = TRUE)

@@ -3,12 +3,11 @@
 #'   \href{https://www.whaleresearch.com/}{Center for Whale
 #'   Research (CWR)} encounter landing pages.
 #'
-#'   2022 and 2023 encounters are on their current website while 2017
-#'   - 2021 encounters are on their
-#'   \href{https://whaleresearch.wixsite.com/archives}{archival
+#'   2024 encounters are on their current website while 2017 - 2023 encounters
+#'   are on their \href{https://whaleresearch.wixsite.com/archives}{archival
 #'   website}.
 #'
-#' @param year Numeric year 2017 or later. Defaults to 2023.
+#' @param year Numeric year 2017 or later. Defaults to 2024.
 #' @param max_urls Number of urls to extract (from newest to oldest).
 #'   Defaults to `Inf`.
 #'
@@ -17,13 +16,13 @@
 #'
 #' @examples
 #' # Get 10 most recent encounter links for one year
-#' get_encounter_links(year = 2022, max_urls = 5)
+#' get_encounter_links(year = 2024, max_urls = 5)
 #'
-#' # Get all encounter links from 2017 through 2020
+#' # Get all encounter links from 2017 through 2024
 #' library(purrr)
-#' map(2019:2020, get_encounter_links) |>
+#' map(2019:2024, get_encounter_links) |>
 #'   list_c()
-get_encounter_links <- function(year = 2023,
+get_encounter_links <- function(year = 2024,
                                 max_urls = Inf) {
   if (!is.numeric(year)) {
     stop("year must be numeric.")
@@ -48,18 +47,18 @@ get_encounter_links <- function(year = 2023,
   }
 
   url <- ifelse(
-    year >= 2022,
-    glue::glue("https://www.whaleresearch.com/2022encounters"),
+    year >= 2024,
+    glue::glue("https://www.whaleresearch.com/encounters"),
     glue::glue("https://whaleresearch.wixsite.com/{year}encounters")
   )
 
-  website_type <- ifelse(year >= 2022,
+  website_type <- ifelse(year >= 2024,
     "current",
     "archive"
   )
 
   selector <- switch(website_type,
-    current = "//*[starts-with(@id, 'comp-l3369ith')]//a",
+    current = '//*[(@id = "comp-lr6yyvwm")]//*[contains(concat( " ", @class, " " ), concat( " ", "wixui-rich-text__text", " " ))]',
     archive = "//*[starts-with(@id, 'comp')]//a"
   )
 
@@ -89,7 +88,7 @@ get_encounter_links <- function(year = 2023,
 #' @export
 #'
 #' @examples
-#' get_encounter_data("https://www.whaleresearch.com/2023-13")
+#' get_encounter_data("https://www.whaleresearch.com/2024-100")
 get_encounter_data <- function(encounter_url) {
   if (!length(encounter_url) == 1) {
     stop("only one url allowed")
@@ -198,7 +197,7 @@ get_encounter_data <- function(encounter_url) {
 #' @export
 #'
 #' @examples
-#' get_encounter_data("https://www.whaleresearch.com/2022-13") |>
+#' get_encounter_data("https://www.whaleresearch.com/2024-100") |>
 #'   parse_encounter()
 parse_encounter <- function(encounter_data) {
   if (!is.character(encounter_data)) {
@@ -265,7 +264,7 @@ parse_encounter <- function(encounter_data) {
 
 #' Make a Dataframe of Multiple CWR Encounters
 #'
-#' Getting all encounters from 2017 to 2023 takes about 30 minutes.
+#' Getting all encounters from 2017 to 2024 takes about 40 minutes.
 #' The resulting dataframe will need to be wrangled and cleaned. See
 #' how it was tidied in `data-raw/data_cwr.R`
 #'
@@ -275,12 +274,12 @@ parse_encounter <- function(encounter_data) {
 #'
 #' @returns Dataframe with one row per encounter. This dataframe will
 #'   need to be tidied. See data-raw/data_cwr.R for the data cleaning
-#'   script used to clean 2017:2023 data.
+#'   script used to clean 2017:2024 data.
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' make_encounter_df(years = 2022:2023, max_urls = 1)
+#' make_encounter_df(years = 2022:2024, max_urls = 1)
 #' }
 make_encounter_df <- function(years, max_urls = Inf) {
   links <- purrr::map(years, get_encounter_links, max_urls) |>

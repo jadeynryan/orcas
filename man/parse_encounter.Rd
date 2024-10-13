@@ -17,6 +17,6 @@ columns.
 Parse CWR Encounter Data
 }
 \examples{
-get_encounter_data("https://www.whaleresearch.com/2022-13") |>
+get_encounter_data("https://www.whaleresearch.com/2024-100") |>
   parse_encounter()
 }

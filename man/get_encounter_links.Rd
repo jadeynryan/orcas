@@ -4,10 +4,10 @@
 \alias{get_encounter_links}
 \title{Extract Link for Each CWR Encounter}
 \usage{
-get_encounter_links(year = 2023, max_urls = Inf)
+get_encounter_links(year = 2024, max_urls = Inf)
 }
 \arguments{
-\item{year}{Numeric year 2017 or later. Defaults to 2023.}
+\item{year}{Numeric year 2017 or later. Defaults to 2024.}
 
 \item{max_urls}{Number of urls to extract (from newest to oldest).
 Defaults to \code{Inf}.}
@@ -20,19 +20,16 @@ Extract encounter links from
 \href{https://www.whaleresearch.com/}{Center for Whale
 Research (CWR)} encounter landing pages.
 
-2022 and 2023 encounters are on their current website while 2017
-\itemize{
-\item 2021 encounters are on their
-\href{https://whaleresearch.wixsite.com/archives}{archival
+2024 encounters are on their current website while 2017 - 2023 encounters
+are on their \href{https://whaleresearch.wixsite.com/archives}{archival
 website}.
-}
 }
 \examples{
 # Get 10 most recent encounter links for one year
-get_encounter_links(year = 2022, max_urls = 5)
+get_encounter_links(year = 2024, max_urls = 5)
 
-# Get all encounter links from 2017 through 2020
+# Get all encounter links from 2017 through 2024
 library(purrr)
-map(2019:2020, get_encounter_links) |>
+map(2019:2024, get_encounter_links) |>
   list_c()
 }

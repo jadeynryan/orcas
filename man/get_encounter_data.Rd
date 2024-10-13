@@ -16,5 +16,5 @@ Character vector to be input to \code{parse_encounter()}.
 Extract CWR Data from Encounter Webpage
 }
 \examples{
-get_encounter_data("https://www.whaleresearch.com/2023-13")
+get_encounter_data("https://www.whaleresearch.com/2024-100")
 }

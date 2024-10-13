@@ -15,15 +15,15 @@ for each year). Defaults to \code{Inf}.}
 \value{
 Dataframe with one row per encounter. This dataframe will
 need to be tidied. See data-raw/data_cwr.R for the data cleaning
-script used to clean 2017:2023 data.
+script used to clean 2017:2024 data.
 }
 \description{
-Getting all encounters from 2017 to 2023 takes about 30 minutes.
+Getting all encounters from 2017 to 2024 takes about 40 minutes.
 The resulting dataframe will need to be wrangled and cleaned. See
 how it was tidied in \code{data-raw/data_cwr.R}
 }
 \examples{
 \dontrun{
-make_encounter_df(years = 2022:2023, max_urls = 1)
+make_encounter_df(years = 2022:2024, max_urls = 1)
 }
 }

@@ -22,20 +22,20 @@ test_that("get_encounter_links() works", {
 
 test_that("get_encounter_data() works", {
   # Returns character vector
-  expect_type(get_encounter_data("https://www.whaleresearch.com/2023-4"),
+  expect_type(get_encounter_data("https://www.whaleresearch.com/2024-10"),
               "character")
 
   # Error if user enters more than 1 url
   expect_error(get_encounter_data(
     c(
-      "https://www.whaleresearch.com/2023-4",
-      "https://www.whaleresearch.com/2023-09"
+      "https://www.whaleresearch.com/2024-100",
+      "https://www.whaleresearch.com/2024-99"
     )
   ))
 })
 
 test_that("parse_encounter() works", {
-  encounter <- get_encounter_data("https://www.whaleresearch.com/2023-13")
+  encounter <- get_encounter_data("https://www.whaleresearch.com/2024-100")
 
   # Returns dataframe
   expect_s3_class(parse_encounter(encounter), "data.frame")
